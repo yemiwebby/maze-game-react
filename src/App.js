@@ -119,30 +119,29 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
-    window.addEventListener('load', this.handleLoad(this.state.width, this.state.height))
-  }
-
-  handleLoad(width, height) {
+  initializePage(width, height) {
     let container = document.getElementById('root')
 		container.style.height = 40 * height + "px"
 		container.style.width = 40 * width + "px"
 		let shuffledArray = Helper.shuffle(this.state.items)
 		let truncatedArray = shuffledArray.slice(0,parseInt(this.state.containerSize/3,10))
 
-		// loop through the truncated array and use
-		// mushroom for the positions
+		// loop through the truncated array and use it to position the mushrooms
 		for (let i = 0; i < truncatedArray.length; i++) {
-			let elem_position = document.getElementById(truncatedArray[i])
-			elem_position.innerHTML="<img src='mushroom.png' alt='mario' class='maze-image'/>";
-			elem_position.classList.toggle('active')
+			let mushRoomPosition = document.getElementById(truncatedArray[i])
+			mushRoomPosition.innerHTML="<img src='mushroom.png' alt='mario' class='maze-image'/>";
+			mushRoomPosition.classList.toggle('active')
 		}
 
-		let unique_data = shuffledArray.filter(function(obj) { return truncatedArray.indexOf(obj) === -1; });
-		let item = unique_data[Math.floor(Math.random() * unique_data.length)];
-		let marioposition=document.getElementById(item)
-		marioposition.classList.toggle('mario')
-		marioposition.innerHTML="<img src='super-mario.png' alt='mario' class='maze-image'/>";
+		let uniqueData = shuffledArray.filter( (obj) => { 
+      return truncatedArray.indexOf(obj) === -1; 
+    });
+
+
+		let item = uniqueData[Math.floor(Math.random() * uniqueData.length)];
+		let marioPosition = document.getElementById(item)
+		marioPosition.classList.toggle('mario')
+		marioPosition.innerHTML="<img src='super-mario.png' alt='mario' class='maze-image'/>";
   }
 
   onKeyPress(e) {
@@ -156,6 +155,11 @@ class App extends Component {
 		movement(e) 
 		Helper.confirmComplete(moves, maxMoves)
   }
+
+  componentDidMount() {
+    window.addEventListener('load', this.initializePage(this.state.width, this.state.height))
+  }
+  
 
   componentWillMount() {
     document.addEventListener("keydown", this.onKeyPress);
