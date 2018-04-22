@@ -139,7 +139,7 @@ class App extends Component {
 		}
 
 		let unique_data = shuffledArray.filter(function(obj) { return truncatedArray.indexOf(obj) === -1; });
-		let item = unique_data[Math.floor(Math.random()*unique_data.length)];
+		let item = unique_data[Math.floor(Math.random() * unique_data.length)];
 		let marioposition=document.getElementById(item)
 		marioposition.classList.toggle('mario')
 		marioposition.innerHTML="<img src='super-mario.png' alt='mario' class='maze-image'/>";
